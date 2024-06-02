@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WhatsApp Pairing</title>
+</head>
+<body>
+  <h1>WhatsApp Pairing</h1>
+  <form action="/pair" method="post">
+    <input type="tel" name="phoneNumber" placeholder="Phone Number">
+    <button>Generate Pairing Code</button>
+  </form>
+  <div id="qr-code"></div>
+  <div id="pairing-code"></div>
+  <script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const response = await fetch('/pair', {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(form)),
+      });
+      const data = await response.json();
+      document.getElementById('qr-code').innerHTML = data.qrCode;
+      document.getElementById('pairing-code').innerHTML = data.pairingCode;
+    });
+  </script>
+</body>
+</html>
